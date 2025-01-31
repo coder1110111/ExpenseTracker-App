@@ -14,7 +14,7 @@ async function checkUser(event) {
         console.log("Resquest Sent!");
         if(response.ok) {
             alert('User Created Successfully!')
-            location.reload();
+            window.location.href="user.html";
         } else {
             if(response.status===404){
                 alert("Email already in use!");
@@ -30,7 +30,20 @@ async function checkUser(event) {
 
 async function checklogin(event) {
     event.preventDefault();
-    const email = await fetch('http://localhost:1800/user/logincheck' , {
-        
-    })
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('passwrd').value;
+    try {
+        const response = await fetch(`http://localhost:1800/user/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email,password})
+        });
+        const data = await response.json();
+        alert(data.message);
+    } catch(err) {
+        alert("Error:", err);
+    }
 }
+    
