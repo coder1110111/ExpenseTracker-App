@@ -15,6 +15,7 @@ async function checkUser(event) {
         alert('User Created Successfully!')
         location.reload();
     } else {
-        alert('Error creating User.');
+        console.log(response);
+        alert(response.statusText);
     }
 }

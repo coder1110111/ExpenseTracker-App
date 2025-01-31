@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign-In</title>
-    <link rel="stylesheet" href="signin.js">
+    <link rel="stylesheet" href="Resources\stylein.css">
+    <link rel="icon" href="Resources\ETLogo.jpg" type="image/icon type">
 </head>
 <body>
-    <div id="display">
-        <div id="sign-in-Form">
-            <form id="signinForm" onsubmit="checklogin">
-                <label for="usermail">Email:</label>
+    <div class="login-contain">
+        <h2>Login</h2>
+        <form id="signinForm" onsubmit="checklogin">
+            <div class="input-group">
+                <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
                 <label for="password">Password:</label>
                 <input type="password" id="passwrd" name="passwrd" required>
-                <br>
-                <button type="submit">Login!</button>
-            </form><br>
-            <p><a href="/signUp">SignUp</a> if new User</p>
-        </div>
+            </div>    
+            <button type="submit">Login!</button>
+            <p><a href="signUp.html" target="_blank">SignUp</a>, if new User</p>
+        </form>
     </div>
     
 </body>
