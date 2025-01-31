@@ -1,18 +1,19 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-
-const app = express();
 
 const sequelize = require('./util/database');
 const Date = require('./models/date');
 const CashFlow = require('./models/cashflow');
+const userRoutes = require('./routes/userRoutes');
 
+const app = express();
+
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json({extended:false}));
+
 
 //routes
-
+app.use('/user', userRoutes);
 //associations
 Date.hasMany(CashFlow);
 CashFlow.belongsTo(Date);
@@ -20,5 +21,5 @@ CashFlow.belongsTo(Date);
 //server initialization
 sequelize.sync()
 .then(result => {
-    app.listen(64);
+    app.listen(1800);
 }) .catch(err => console.log(err));
