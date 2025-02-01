@@ -9,7 +9,9 @@
     <link rel="icon" href="Resources\ETLogo.jpg" type="image/icon type">
 </head>
 <body>
+    
     <div class="login-contain">
+        <h1>Expense-Tracker</h1>
         <h2>Login</h2>
         <form id="signinForm" onsubmit="checklogin(event)">
             <div class="input-group">
@@ -19,9 +21,12 @@
             <div class="input-group">
                 <label for="password">Password:</label>
                 <input type="password" id="passwrd" name="passwrd" required>
+            </div>
+            <div class="input-group">
+                <input type="date" id="date" name="date">
             </div>    
             <button type="submit">Login!</button>
-            <p><a href="signUp.html" target="_self">SignUp</a>, if new User</p>
+            <p class="add-text"><a href="signUp.html" target="_self">SignUp</a>, if new User</p>
         </form>
     </div>
     

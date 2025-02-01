@@ -40,6 +40,12 @@ body {
     font-size: 16px;
 }
 
+h2 {
+    margin-bottom: 1rem;
+    font-size: 24px;
+    color: #333;
+}
+
 button {
     width: 100%;
     padding: 10px;
@@ -54,5 +60,20 @@ button {
 
 button:hover {
     background-color: #764ba2;
+}
+
+.add-text {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.add-text a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.add-text a:hover {
+    text-decoration: underline;
 }
 

@@ -16,7 +16,7 @@ async function checkUser(event) {
             alert('User Created Successfully!')
             window.location.href="user.html";
         } else {
-            if(response.status===404){
+            if(response.status===409){
                 alert("Email already in use!");
             } else if(response.status === 500) {
                 alert("Error! Please visit website in some time!");
