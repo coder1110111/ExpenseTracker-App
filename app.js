@@ -26,7 +26,8 @@ User.hasMany(Expense);
 Expense.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 
 //server initialization
-sequelize.sync({force: true})
+//sequelize.sync({force: true})
+sequelize.sync()
 .then(result => {
     app.listen(1800);
 }) .catch(err => console.log(err));
