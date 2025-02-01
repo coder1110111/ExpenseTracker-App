@@ -13,8 +13,50 @@ body {
 }
 
 .bottom-section {
-    flex: 1;
     padding: 20px;
     overflow-y: auto;
+    display: flex;
+}
+
+.centered-flex {
+    display:flex;
+}
+
+.centered-flex button{
+    width: 8rem;
+    padding: 10px;
+    background: green;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;;
+}
+
+.input-group {
+    margin-right: 1rem;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
 }
 

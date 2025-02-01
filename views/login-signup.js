@@ -1,3 +1,4 @@
+
 async function checkUser(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
@@ -41,7 +42,13 @@ async function checklogin(event) {
             body: JSON.stringify({email,password})
         });
         const data = await response.json();
+            if(data.message == "Login Successful!"){
+                window.location.href = "tracker.html";
+            }
+        
         alert(data.message);
+        
+        
     } catch(err) {
         alert("Error:", err);
     }
