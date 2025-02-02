@@ -9,6 +9,7 @@ const Expense = require('./models/expense');
 
 
 const userRoutes = require('./routes/userRoutes');
+const expenseRoutes = require('./routes/expenseRoute');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 //routes
 app.use('/user', userRoutes);
+app.use('/tracker', expenseRoutes);
 //associations
 Date.hasMany(CashFlow);
 CashFlow.belongsTo(Date);

@@ -4,27 +4,33 @@ async function checkUser(event) {
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('passwrd').value;
-    try{
-        const response = await fetch('http://localhost:1800/user/create-user' , {
-            method:'POST',
-            headers : {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({username, email, password})
-        });
-        console.log("Resquest Sent!");
-        if(response.ok) {
-            alert('User Created Successfully!')
-            window.location.href="user.html";
-        } else {
-            if(response.status===409){
-                alert("Email already in use!");
-            } else if(response.status === 500) {
-                alert("Error! Please visit website in some time!");
-            }            
+    const repeatpassword = document.getElementById('repeat_passwrd').value;
+    const errorPassword = document.getElementById('error');
+    if(password !== repeatpassword) {
+        errorPassword.innerHTML = "<span style='color: red;'>" + "Password does not match!</span>"
+    } else {
+        try{
+            const response = await fetch('http://localhost:1800/user/create-user' , {
+                method:'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({username, email, password})
+            });
+            console.log("Resquest Sent!");
+            if(response.ok) {
+                alert('User Created Successfully!')
+                window.location.href="user.html";
+            } else {
+                if(response.status===409){
+                    alert("Email already in use!");
+                } else if(response.status === 500) {
+                    alert("Error! Please visit website in some time!");
+                }            
+            }
+        } catch {
+            alert("Server Unavailable");
         }
-    } catch {
-        alert("Server Unavailable");
     }
     
 }

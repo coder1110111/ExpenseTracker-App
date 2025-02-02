@@ -9,32 +9,31 @@
 </head>
 <body>
     <div class="top-section"></div>
-    <div class="bottom-section">
-        <form class="centered-flex" onsubmit="AddExpense(event)">
-            <div class="input-group">
-                <label for="amount">Amount</label>
-                <input type="number" id="amount" name="amount" required>
-            </div>
-            <div class="input-group">
-                <label for="description">Description</label>
-                <input type="text" id="description" name="description" required>
-            </div>
-            <div class="input-group">
-                <label for="category">Category</label>
-                <select name="category" id="category">
-                    <option value="">Select-Category</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Grocery">Grocery</option>
-                    <option value="Rent/Mortgage">Rent/Mortgage</option>
-                    <option value="Utilities">Utilities</option>
-                    <option value="Medical/HealthCare">Medical/HealthCare</option>
-                </select>
-            </div>
-            <button type="submit">Add Expense!</button>
-        </form>
-        <div class="list-expense" id="output-list">
-
+        <div class="bottom-section">
+            <form class="centered-flex" onsubmit="AddExpense(event)">
+                <div class="input-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" name="amount" required>
+                </div>
+                <div class="input-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description" required>
+                </div>
+                <div class="input-group">
+                    <label for="category">Category</label>
+                    <select name="category" id="category">
+                        <option value="">Select-Category</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Grocery">Grocery</option>
+                        <option value="Rent/Mortgage">Rent/Mortgage</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Medical/HealthCare">Medical/HealthCare</option>
+                    </select>
+                </div>
+                <button type="submit">Add Expense!</button>
+            </form>
         </div>
+        <div class="list-expense" id="output_list"></div>
     </div>
     
 </body>
