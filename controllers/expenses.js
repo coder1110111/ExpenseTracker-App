@@ -2,7 +2,7 @@ const Expense = require('../models/expense');
 
 
 exports.createTransaction = async (req, res) => {
-    const {amount, description, category, userEmail} = req.body;
+    const {amount, description, category} = req.body;
 
     if(!amount || !description || !category) {
         console.log("Validation Error");  //While in developing phase
@@ -26,10 +26,8 @@ exports.createTransaction = async (req, res) => {
 
 
 exports.getTransactions = async (req, res) => {
-    const {userEmail} = req.body;
     try {
-        const expenses = await Expense.findAll({
-            where: {userEmail},
+        const expenses = await req.user.getExpenses({
             order: [['createdAt', 'ASC']]
         });
         res.status(200).json(expenses);

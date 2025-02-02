@@ -10,7 +10,8 @@ async function AddExpense(event) {
     const response = await fetch('http://localhost:1800/tracker/post-Expense', {
         method:"POST",
         headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type' : 'application/json',
+            Authorization : localStorage.getItem(token)
         },
         body: JSON.stringify({ amount, description, category, userEmail})
     });
@@ -25,14 +26,13 @@ async function AddExpense(event) {
 
 async function fetchExpense(event) {
     //event.preventDefault();
-    const userEmail = "test@gmail.com";
     try {
         const response = await fetch('http://localhost:1800/tracker/get-Expense', {
             method: 'POST',
             headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({ userEmail })
+                'Content-Type' : 'application/json',
+                Authorization : localStorage.getItem('token')
+            }
         });
         if(response.ok) {
             const expenses = await response.json();
