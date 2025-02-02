@@ -41,9 +41,21 @@ async function fetchExpense(event) {
             expenseList.innerHTML = "";
             expenses.forEach(expense => {
                 const newDiv = document.createElement('div');
-                newDiv.innerHTML=`
-                    <p> ${expense.amount}--${expense.category}--${expense.description}--<button type="button" id="delete-btn>Delete</button>
-                `;
+                newDiv.setAttribute('id',expense.id);
+                
+                const newp = document.createElement('p');
+                newp.innerHTML = `${expense.amount} -- ${expense.category} -- ${expense.description} --`;
+                
+
+                const deletebtn = document.createElement('button');
+                deletebtn.setAttribute('type', 'button');
+                const deleteTxt = document.createTextNode('Delete');
+                deletebtn.appendChild(deleteTxt);
+                deletebtn.addEventListener('click', () => deleteTransaction(newDiv.id));
+
+                newp.appendChild(deletebtn);
+
+                newDiv.appendChild(newp);
                 expenseList.appendChild(newDiv);
             });
         } else {
@@ -52,7 +64,18 @@ async function fetchExpense(event) {
     } catch(err) {
         console.log(err);
     }
+}
 
+async function deleteTransaction(id) {
+    //console.log(id);
+    const response = await fetch(`http://localhost:1800/tracker/delete-Transaction/${id}`, {
+        method:'DELETE',
+    });
+    if(response.ok) {
+        alert("Transaction Deleted!");
+        location.reload();
+    } 
+    else console.log('Error somewhere');
 }
 
 window.onload = (event) => {

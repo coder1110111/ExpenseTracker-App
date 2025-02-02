@@ -37,3 +37,19 @@ exports.getTransactions = async (req, res) => {
         res.status(500).json({error: 'Internal Server Error'});
     }
 };
+
+exports.deleteTransaction = async (req, res) => {
+    const id=req.params.id;
+    console.log(id);
+    try {
+        const expense = await Expense.findByPk(id);
+
+        if(!expense){
+            return res.status(404);
+        }
+        await expense.destroy();
+        res.status(200).json({messsage: 'Node Deleted!'});
+    } catch(err) {
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+};
