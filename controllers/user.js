@@ -1,6 +1,8 @@
 
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require("dotenv").config();
 
 exports.createUser = async (req, res) => {
     console.log('Request Received!');
@@ -52,7 +54,10 @@ exports.Login = async (req, res) => {
         if(!match){
             return res.status(401).json({message: "Incorrect Password!"});
         }
-        res.status(200).json({message: "Login Successful!", user: user.name});
+
+        const token = await jwt.sign({email: user.email}, process.env.JWT_KEY);
+
+        res.status(200).json({message: "Login Successful!", token});
     }
     catch(error) {
         console.log("Login Error: ",error);

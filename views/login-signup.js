@@ -49,7 +49,10 @@ async function checklogin(event) {
         });
         const data = await response.json();
             if(data.message == "Login Successful!"){
-                window.location.href = "tracker.html";
+                if(data.token){
+                    localStorage.setItem("token", data.token);
+                    window.location.href = "tracker.html";
+                }
             }
         
         alert(data.message);

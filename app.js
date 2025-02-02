@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+require("dotenv").config();
 
 const sequelize = require('./util/database');
 const Date = require('./models/date');
@@ -28,8 +29,11 @@ User.hasMany(Expense);
 Expense.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 
 //server initialization
+const PORT = process.env.PORT || 1800;
+
+
 //sequelize.sync({force: true})
 sequelize.sync()
 .then(result => {
-    app.listen(1800);
+    app.listen(PORT);
 }) .catch(err => console.log(err));
