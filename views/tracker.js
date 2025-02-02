@@ -31,7 +31,7 @@ async function fetchExpense(event) {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json',
-                Authorization : localStorage.getItem('token')
+                'Authorization' : localStorage.getItem('token')
             }
         });
         if(response.ok) {
