@@ -60,3 +60,20 @@ body {
     font-size: 16px;
 }
 
+@media screen and (max-width: 768px) {
+    .bottom-section,
+    .list-expense {
+        width: 90%; /* Adjust width for mobile */
+        padding: 15px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+}
+

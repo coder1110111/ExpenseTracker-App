@@ -10,6 +10,7 @@ const Expense = require('./models/expense');
 
 const userRoutes = require('./routes/userRoutes');
 const expenseRoutes = require('./routes/expenseRoute');
+const premiumRoutes = require('./routes/premiumRoutes');
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.use(cors());
 //routes
 app.use('/user', userRoutes);
 app.use('/tracker', expenseRoutes);
+app.use('/premium', premiumRoutes);
+    //make a error route
+
 //associations
 
 

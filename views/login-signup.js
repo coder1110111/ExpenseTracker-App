@@ -59,7 +59,7 @@ async function checklogin(event) {
         
         
     } catch(err) {
-        alert("Error:", err);
+        alert("Error(404): Server not Found");
     }
 }
     

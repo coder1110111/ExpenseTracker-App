@@ -33,7 +33,13 @@
                 <button type="submit">Add Expense!</button>
             </form>
         </div>
+        <div class="Premium-features-LeaderBoard">
+            <button type="button" id="ldr-btn-on" onclick="getLeaderboard(event)">Get LeaderBoard</button>
+            <button type="button" id="ldr-btn-off" onclick="closeLeaderboard()" hidden="true">Close LeaderBoard</button>
+        </div>
+        <div class="leaderboard_table" id="leaderboard"></div>
         <div class="list-expense" id="output_list"></div>
+        <div></div>
     </div>
     
 </body>

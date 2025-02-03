@@ -85,6 +85,63 @@ function displayToUI(expense) {
     expenseList.appendChild(newDiv);
 }
 
+async function getLeaderboard(event) {          //This happens only if account is of Premium Category
+    event.preventDefault();
+    try{
+        const leaderDisplay = document.querySelector('#leaderboard');
+        const response = await fetch('http://localhost:1800/premium/get-Leaderboard', {
+            method:"GET",
+            headers: {
+                'Authorization' : localStorage.getItem('token')
+            }
+        });
+        //console.log(response);
+        if(response.ok) {
+            //leaderDisplay.innerHTML = "";
+            const leaderboardData = await response.json();
+            let i=1;
+            leaderboardData.forEach(data => {
+                displayLeaderBoard(data,i);
+                i++;
+            });
+            //Add a hide/delete leaderboard button BUT MAKE IT SO THAT THE GET LEADERBOARD BUTTON CHANGES TO CLOSE LEADERBOARD
+            document.querySelector('#ldr-btn-on').hidden=true;
+            document.querySelector('#ldr-btn-off').hidden=false;
+
+
+
+        } else {
+            console.log("LeaderBoard Not initiated");
+        }
+
+    } catch(error) {
+        console.log(error);
+    }
+    
+
+
+}
+
+function closeLeaderboard() {
+    const leaderboardDisp = document.querySelector('#leaderboard');
+    leaderboardDisp.innerHTML="";
+    document.querySelector('#ldr-btn-on').hidden = false;
+    document.querySelector('#ldr-btn-off').hidden = true;
+}
+
+function displayLeaderBoard(node,rank) {
+    //console.log(node.name);       //debug
+    const leaderboard = document.querySelector('#leaderboard');
+    if(node.totalExpense === null){
+        node.totalExpense = 0;
+    }
+
+    const newP = document.createElement('p');
+    newP.innerHTML = `${rank} -- ${node.name} -- ${node.totalExpense}`;
+
+    leaderboard.appendChild(newP);
+
+}
 
 window.onload = (event) => {
     event.preventDefault();
