@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 const authenticate = (req, res, next) => {
     const token = req.header('Authorization');
-    console.log(token + ">>>> is token");
+    //console.log(token + ">>>> is token");
     if(!token){
         return res.status(401).json({message: "Unauthorized: No token provided"});
     }
@@ -12,11 +12,11 @@ const authenticate = (req, res, next) => {
     try {
         //console.log('in try');
         const email = jwt.verify(token, process.env.JWT_SECRET).email;
-        console.log('after convert');
-        console.log(email);
+        //console.log('after convert');
+        //console.log(email);
         User.findOne({where: {email}})
         .then(user => {
-            console.log(user);
+            //console.log(user);
             req.user = user;
             next();
         }) .catch(err => {throw new Error(err)});

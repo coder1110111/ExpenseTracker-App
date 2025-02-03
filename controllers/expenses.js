@@ -5,16 +5,15 @@ exports.createTransaction = async (req, res) => {
     const {amount, description, category} = req.body;
 
     if(!amount || !description || !category) {
-        console.log("Validation Error");  //While in developing phase
+        //console.log("Validation Error");  //While in developing phase
         return res.status(400).json({error: "All fields must be valid."})
     }
 
     try {
-        await Expense.create({
+        await req.user.createExpense({
             amount: amount,
             description: description,
-            category: category,
-            userEmail: userEmail
+            category: category
         })
         res.status(201).json({message: 'Expense Added'});
 
@@ -39,10 +38,16 @@ exports.getTransactions = async (req, res) => {
 
 exports.deleteTransaction = async (req, res) => {
     const id=req.params.id;
+    const emailId = req.user.email;
     console.log(id);
     try {
-        const expense = await Expense.findByPk(id);
-
+        const expense = await Expense.findOne({
+            where: {
+                id: id,
+                userEmail:emailId
+            }
+        });
+        //console.log(expense);     //Debugging
         if(!expense){
             return res.status(404);
         }

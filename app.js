@@ -3,8 +3,7 @@ const cors = require('cors');
 require("dotenv").config();
 
 const sequelize = require('./util/database');
-const Date = require('./models/date');
-const CashFlow = require('./models/cashflow');
+
 const User = require('./models/user');
 const Expense = require('./models/expense');
 
@@ -22,13 +21,12 @@ app.use(cors());
 app.use('/user', userRoutes);
 app.use('/tracker', expenseRoutes);
 //associations
-Date.hasMany(CashFlow);
-CashFlow.belongsTo(Date);
+
 
 User.hasMany(Expense);
 Expense.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 
-//server initialization
+//server initialization along with env
 const PORT = process.env.PORT || 1800;
 
 

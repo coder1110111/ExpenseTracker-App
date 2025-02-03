@@ -11,7 +11,7 @@ async function AddExpense(event) {
         method:"POST",
         headers: {
             'Content-Type' : 'application/json',
-            Authorization : localStorage.getItem(token)
+            Authorization : localStorage.getItem('token')
         },
         body: JSON.stringify({ amount, description, category, userEmail})
     });
@@ -24,8 +24,22 @@ async function AddExpense(event) {
     }
 }
 
-async function fetchExpense(event) {
-    //event.preventDefault();
+async function deleteTransaction(id) {
+    //console.log(id);
+    const response = await fetch(`http://localhost:1800/tracker/delete-Transaction/${id}`, {
+        method:'DELETE',
+        headers: {
+            'Authorization' : localStorage.getItem('token')
+        }
+    });
+    if(response.ok) {
+        alert("Transaction Deleted!");
+        location.reload();
+    } 
+    else console.log('Error somewhere');
+}
+
+async function fetchExpense() {
     try {
         const response = await fetch('http://localhost:1800/tracker/get-Expense', {
             method: 'POST',
@@ -40,23 +54,7 @@ async function fetchExpense(event) {
             const expenseList = document.getElementById('output_list');
             expenseList.innerHTML = "";
             expenses.forEach(expense => {
-                const newDiv = document.createElement('div');
-                newDiv.setAttribute('id',expense.id);
-                
-                const newp = document.createElement('p');
-                newp.innerHTML = `${expense.amount} -- ${expense.category} -- ${expense.description} --`;
-                
-
-                const deletebtn = document.createElement('button');
-                deletebtn.setAttribute('type', 'button');
-                const deleteTxt = document.createTextNode('Delete');
-                deletebtn.appendChild(deleteTxt);
-                deletebtn.addEventListener('click', () => deleteTransaction(newDiv.id));
-
-                newp.appendChild(deletebtn);
-
-                newDiv.appendChild(newp);
-                expenseList.appendChild(newDiv);
+                displayToUI(expense);
             });
         } else {
             console.log('No transactions logged');
@@ -66,17 +64,27 @@ async function fetchExpense(event) {
     }
 }
 
-async function deleteTransaction(id) {
-    //console.log(id);
-    const response = await fetch(`http://localhost:1800/tracker/delete-Transaction/${id}`, {
-        method:'DELETE',
-    });
-    if(response.ok) {
-        alert("Transaction Deleted!");
-        location.reload();
-    } 
-    else console.log('Error somewhere');
+function displayToUI(expense) {
+    const expenseList = document.getElementById('output_list');
+    const newDiv = document.createElement('div');
+    newDiv.setAttribute('id',expense.id);
+                
+    const newp = document.createElement('p');
+    newp.innerHTML = `${expense.amount} -- ${expense.category} -- ${expense.description} --`;
+                
+
+    const deletebtn = document.createElement('button');
+    deletebtn.setAttribute('type', 'button');
+    const deleteTxt = document.createTextNode('Delete');
+    deletebtn.appendChild(deleteTxt);
+    deletebtn.addEventListener('click', () => deleteTransaction(newDiv.id));
+
+    newp.appendChild(deletebtn);
+
+    newDiv.appendChild(newp);
+    expenseList.appendChild(newDiv);
 }
+
 
 window.onload = (event) => {
     event.preventDefault();
