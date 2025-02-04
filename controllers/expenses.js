@@ -1,8 +1,10 @@
 const { INTEGER } = require('sequelize');
 const Expense = require('../models/expense');
+const sequelize = require('../util/database');
 
 
-exports.createTransaction = async (req, res) => {
+exports.createBill = async (req, res) => {
+    const t = await sequelize.transaction();
     const {amount, description, category} = req.body;
     const currentTotal = req.user.total_expense;
     const newTotal = currentTotal + parseInt(amount);
@@ -17,23 +19,23 @@ exports.createTransaction = async (req, res) => {
             amount: amount,
             description: description,
             category: category
-        });
-        console.log(req.user);
-        req.user.set({
-            total_expense: newTotal
-        });
-        await req.user.save();
-        console.log(req.user);
+        }, {transaction: t});
+        //console.log(req.user);
+        
+        await req.user.update({total_expense: newTotal}, {transaction: t});
+        //console.log(req.user);
+        await t.commit();
         res.status(201).json({message: 'Expense Added'});
 
     } catch(error) {
+        await t.rollback();
         console.log("Error: ", error);
         res.status(500).json({message: 'Internal Server Error'});
     }
 }
 
 
-exports.getTransactions = async (req, res) => {
+exports.getBill = async (req, res) => {
     try {
         const expenses = await req.user.getExpenses({
             order: [['createdAt', 'ASC']]
@@ -45,7 +47,8 @@ exports.getTransactions = async (req, res) => {
     }
 };
 
-exports.deleteTransaction = async (req, res) => {
+exports.deleteBill = async (req, res) => {
+    const t = await sequelize.transaction();
     const id=req.params.id;
     const emailId = req.user.email;
     //console.log(id);
@@ -54,23 +57,28 @@ exports.deleteTransaction = async (req, res) => {
             where: {
                 id: id,
                 userEmail:emailId
-            }
+            },
+            transaction: t
         });
+
+        if(!expense){
+            await t.rollback();
+            return res.status(404).json({message: "Expense not found"});
+        }
         //console.log(expense);     //Debugging
         const amount = expense.amount;
-        const currentTotal = req.user.total_expense;
-        const newTotal = currentTotal - amount;
+        
+        const newTotal = req.user.total_expense - amount;
         //console.log(newTotal);
-        if(!expense){
-            return res.status(404);
-        }
-        await expense.destroy();
-        req.user.set({
-            total_expense:newTotal
-        });
-        req.user.save();
+        
+        await expense.destroy({ transaction: t });
+        await req.user.update({ total_expense: newTotal }, { transaction: t });
+
+        await t.commit();
         res.status(200).json({messsage: 'Node Deleted!'});
     } catch(err) {
+        await t.rollback();
+        console.log(err);
         res.status(500).json({error: 'Internal Server Error'});
     }
 };
