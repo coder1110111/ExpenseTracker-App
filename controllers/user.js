@@ -10,6 +10,7 @@ exports.createUser = async (req, res) => {
     const name = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+    const total_expense = 0;
 
     //console.log(` ${name} ${email} ${password}`);
 
@@ -29,7 +30,8 @@ exports.createUser = async (req, res) => {
             await User.create({
                 name: name,
                 email: email,
-                password: hash
+                password: hash,
+                total_expense: total_expense
             });
             res.status(201).json({message: 'User Created'});
         })

@@ -137,7 +137,7 @@ function displayLeaderBoard(node,rank) {
     }
 
     const newP = document.createElement('p');
-    newP.innerHTML = `${rank} -- ${node.name} -- ${node.totalExpense}`;
+    newP.innerHTML = `${rank} -- ${node.name} -- ${node.total_expense}`;
 
     leaderboard.appendChild(newP);
 

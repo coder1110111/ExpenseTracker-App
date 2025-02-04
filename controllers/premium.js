@@ -5,7 +5,15 @@ const { Sequelize, Model } = require('sequelize');
 exports.getLeaderboard = async (req, res) => {
     console.log(req.user);
     try {
+
         const data = await User.findAll({
+            attributes: ['name', 'total_expense'],
+            order: [['total_expense', 'DESC']],
+            raw: true
+        });
+
+        //Below program not feasable when more users join
+        /* const data = await User.findAll({
             attributes: ['name',[Sequelize.fn('SUM', Sequelize.col('expenses.amount')), 'totalExpense']],
             include: [
                 {
@@ -17,7 +25,7 @@ exports.getLeaderboard = async (req, res) => {
             group: ['User.email'],
             order: [['totalExpense', 'DESC']],
             raw: true       // will return straight json data.
-        });
+        }); */              
         console.log(data);
         res.status(201).json(data);
     } catch (err) {
