@@ -26,16 +26,21 @@ exports.SendLink = async (req,res) => {
             htmlContent: '<html><body><h1>Check if email arrived</h1></body></html>'
         }
         console.log("CHECK 1");
-        const response = await axios.post(url, emailData, {
+        const response = await fetch(url, {
+            method: 'POST',
             headers : {
                 'Content-Type': 'application/json',
                 'api-Key':apiKey
-            }
+            },
+            body: JSON.stringify(emailData)
         });
         console.log('IT REACHES HERE!')
-        console.log(response);
+        //console.log(response);
         if(response.ok){
             console.log('Email Sent successfully!');
+        }
+        else {
+            console.log('Something went wrong!');
         }
 
     } catch (error) {
