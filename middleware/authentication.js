@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config();
 const User = require('../models/user');
 
-const authenticate = (req, res, next) => {
+const authenticate = async (req, res, next) => {
     const token = req.header('Authorization');
     //console.log(token + ">>>> is token");
     if(!token){
@@ -11,15 +11,16 @@ const authenticate = (req, res, next) => {
 
     try {
         //console.log('in try');
-        const email = jwt.verify(token, process.env.JWT_SECRET).email;
+        const id = jwt.verify(token, process.env.JWT_SECRET).id;
         //console.log('after convert');
         //console.log(email);
-        User.findOne({where: {email}})
-        .then(user => {
-            //console.log(user);
-            req.user = user;
-            next();
-        }) .catch(err => {throw new Error(err)});
+        const user = await User.findOne({where: {id}});
+        if(!user) {
+            console.log('No User!');
+        }
+        req.user = user;
+        next();
+        
         
     } catch (error) {
         return res.status(403).json({message: "Forbidden: Invalid or Expired Token"});  //Expiration of token not implemented yet

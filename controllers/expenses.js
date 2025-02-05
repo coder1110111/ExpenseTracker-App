@@ -50,13 +50,13 @@ exports.getBill = async (req, res) => {
 exports.deleteBill = async (req, res) => {
     const t = await sequelize.transaction();
     const id=req.params.id;
-    const emailId = req.user.email;
+    const Id = req.user.id;
     //console.log(id);
     try {
         const expense = await Expense.findOne({
             where: {
                 id: id,
-                userEmail:emailId
+                userId:Id
             },
             transaction: t
         });

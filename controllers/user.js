@@ -10,7 +10,6 @@ exports.createUser = async (req, res) => {
     const name = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    const total_expense = 0;
 
     //console.log(` ${name} ${email} ${password}`);
 
@@ -31,7 +30,6 @@ exports.createUser = async (req, res) => {
                 name: name,
                 email: email,
                 password: hash,
-                total_expense: total_expense
             });
             res.status(201).json({message: 'User Created'});
         })
@@ -57,7 +55,7 @@ exports.Login = async (req, res) => {
             return res.status(401).json({message: "Incorrect Password!"});
         }
 
-        const token = jwt.sign({email: user.email}, process.env.JWT_SECRET);
+        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET);
 
         res.status(200).json({message: "Login Successful!", token});
     }
