@@ -7,7 +7,7 @@ const sequelize = require('./util/database');
 
 const User = require('./models/user');
 const Expense = require('./models/expense');
-const PasswordReset = require('./models/passwordReset');
+const LinkTable = require('./models/linktable');
 
 
 const userRoutes = require('./routes/userRoutes');

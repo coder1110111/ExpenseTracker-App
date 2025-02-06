@@ -13,6 +13,8 @@ async function checkForget(event){
     if(response.ok) {
         alert('Link Sent!');
 
+    }  else if(response.status === 404) {
+        alert('User does not exist in the system! Please try a registered Email.');
     }  else {
         alert('Something went Wrong!');
     }

@@ -25,7 +25,7 @@ exports.createUser = async (req, res) => {
         }
 
         bcrypt.hash(password, 10, async (error, hash) => {
-            console.log(error);
+            console.log(error); //this prints undefined if no error
             await User.create({
                 name: name,
                 email: email,
