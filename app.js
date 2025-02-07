@@ -14,7 +14,7 @@ const userRoutes = require('./routes/userRoutes');
 const expenseRoutes = require('./routes/expenseRoute');
 const premiumRoutes = require('./routes/premiumRoutes');
 const passRoutes = require('./routes/forgotRoutes');
-const { Sequelize } = require('sequelize');
+//const { Sequelize } = require('sequelize');
 
 const app = express();
 
@@ -38,8 +38,8 @@ app.use((req,res,next) => {
 User.hasMany(Expense);
 Expense.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 
-User.hasOne(PasswordReset, { foreignKey: "userId", onDelete: "CASCADE"});
-PasswordReset.belongsTo(User, {foreignKey: "userId"});
+User.hasOne(LinkTable, { foreignKey: "userId", onDelete: "CASCADE"});
+LinkTable.belongsTo(User, {foreignKey: "userId"});
 
 //server initialization along with env
 const PORT = process.env.PORT || 1800;
