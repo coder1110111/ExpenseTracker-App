@@ -35,19 +35,38 @@ exports.createBill = async (req, res) => {
 }
 
 
-exports.getBill = async (req, res) => {
+exports.getExpense = async (req, res) => {
+    const page = req.query.page || 1;
+    console.log('page :',page);
+    let totalExpenses;
+
     try {
+        Expense.count({where: {userId: req.user.id}})
+        .then((total) => {
+            totalExpenses = total;
+        }).catch(err => {console.log(err)}); 
         const expenses = await req.user.getExpenses({
+            offset: (page - 1) * 10,
+            limit: 10,
             order: [['createdAt', 'ASC']]
         });
-        res.status(200).json(expenses);
+        console.log(typeof page);
+        res.status(201).json({
+            expenses: expenses,
+            currentPage: page,
+            hasNextPage: 10 * page < totalExpenses,
+            nextPage: parseInt(page) + 1,
+            hasPreviousPage: page > 1,
+            previousPage: parseInt(page) - 1,
+            lastPage: Math.ceil(totalExpenses / 10)
+        });
     } catch (err) {
         console.log(err);
         res.status(500).json({error: 'Internal Server Error'});
     }
 };
 
-exports.deleteBill = async (req, res) => {
+exports.deleteExpense = async (req, res) => {
     const t = await sequelize.transaction();
     const id=req.params.id;
     const Id = req.user.id;

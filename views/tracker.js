@@ -1,4 +1,4 @@
-
+const backendAPI = "http://localhost:1800";
 
 
 async function AddExpense(event) {
@@ -7,7 +7,7 @@ async function AddExpense(event) {
     const description = document.getElementById("description").value;
     const category = document.getElementById("category").value;
     const userEmail = "test@gmail.com";
-    const response = await fetch('http://localhost:1800/tracker/post-Expense', {
+    const response = await fetch(`${backendAPI}/tracker/post-Expense`, {
         method:"POST",
         headers: {
             'Content-Type' : 'application/json',
@@ -26,7 +26,7 @@ async function AddExpense(event) {
 
 async function deleteTransaction(id) {
     //console.log(id);
-    const response = await fetch(`http://localhost:1800/tracker/delete-Transaction/${id}`, {
+    const response = await fetch(`${backendAPI}/tracker/delete-Transaction/${id}`, {
         method:'DELETE',
         headers: {
             'Authorization' : localStorage.getItem('token')
@@ -39,9 +39,9 @@ async function deleteTransaction(id) {
     else console.log('Error somewhere');
 }
 
-async function fetchExpense() {
+/* async function fetchExpense() {
     try {
-        const response = await fetch('http://localhost:1800/tracker/get-Expense', {
+        const response = await fetch(`${backendAPI}/tracker/get-Expense`, {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json',
@@ -62,11 +62,38 @@ async function fetchExpense() {
     } catch(err) {
         console.log(err);
     }
-}
+} */
 
-function displayToUI(expense) {
+    async function fetchExpenses(page) {        //fetchExpense based on Pages
+    
+        try{
+            const Response = await fetch(`${backendAPI}/tracker/get-Expense?page=${page}`, {
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Authorization' : localStorage.getItem('token')
+                }
+            });
+            if(Response.ok) {
+                const Data = await Response.json();
+                //console.log(Data);
+                const { expenses , ...pageData}  = Data;
+                displayToUI(expenses);
+                console.log(pageData);
+                paginator(pageData);                
+            }
+
+        } catch(error) {
+            console.log("Error in Fetching Expense >>>>" , error);
+        }
+        
+    }
+
+function displayToUI(expenses) {
     const expenseList = document.getElementById('output_list');
-    const newDiv = document.createElement('div');
+    expenseList.innerHTML = "";
+    
+    expenses.forEach(expense => {
+        const newDiv = document.createElement('div');
     newDiv.setAttribute('id',expense.id);
                 
     const newp = document.createElement('p');
@@ -83,13 +110,41 @@ function displayToUI(expense) {
 
     newDiv.appendChild(newp);
     expenseList.appendChild(newDiv);
+    })
+}
+
+function paginator(pageData) {          //Handle how to manage pageData     THIS IS WHERE YOU ARE CURRENTLY
+    const pages = document.querySelector('#pagination');
+    pages.innerHTML="";
+    if(pageData.hasPreviousPage) {
+        const prevPage = document.createElement('input');
+        prevPage.setAttribute('type','button');
+        prevPage.value = pageData.previousPage;
+        prevPage.style.marginLeft='3%';
+        prevPage.addEventListener('click', () => fetchExpenses(prevPage.value));
+        pages.appendChild(prevPage);
+    }
+    const currPage = document.createElement('input');
+    currPage.setAttribute('type','button');
+    currPage.value = parseInt(pageData.currentPage);
+    currPage.style.backgroundColor="Aquamarine";
+    currPage.style.marginLeft='3%';
+    pages.appendChild(currPage);
+    if(pageData.hasNextPage) {
+        const nextPage = document.createElement('input');
+        nextPage.setAttribute('type', 'button');
+        nextPage.value = pageData.nextPage;
+        nextPage.style.marginLeft='3%';
+        nextPage.addEventListener('click', () => fetchExpenses(nextPage.value));
+        pages.appendChild(nextPage);
+    }
 }
 
 async function getLeaderboard(event) {          //This happens only if account is of Premium Category
     event.preventDefault();
     try{
         const leaderDisplay = document.querySelector('#leaderboard');
-        const response = await fetch('http://localhost:1800/premium/get-Leaderboard', {
+        const response = await fetch(`${backendAPI}/premium/get-Leaderboard`, {
             method:"GET",
             headers: {
                 'Authorization' : localStorage.getItem('token')
@@ -143,7 +198,10 @@ function displayLeaderBoard(node,rank) {
 
 }
 
-window.onload = (event) => {
+window.addEventListener('DOMContentLoaded', (event) => {
     event.preventDefault();
-    fetchExpense();
-}
+    const page=1;
+    fetchExpenses(page);
+
+});
+
