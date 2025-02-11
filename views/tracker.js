@@ -199,23 +199,31 @@ function displayLeaderBoard(node,rank) {
 
 }
 
-function changeItemperPage(page) {
-    localStorage.setItem("ItemperPage", page);
-    fetchExpenses(1);
+function changeItemperPage(event) {
+    event.preventDefault();
+    const itemsper = document.querySelector('#dynamicPages').value;
+    localStorage.setItem("ItemperPage", itemsper);
+    console.log("ItemsPerPage changed to >>>", itemsper);
+    location.reload();
 }
 
 
 window.addEventListener('DOMContentLoaded', (event) => {
     event.preventDefault();
     const page=1;
-    const Itemper = localStorage.getItem('ItemPerPage') || 10;
+    let Itemper = localStorage.getItem('ItemperPage');
+    if(Itemper === null) {
+        Itemper = "5";
+        localStorage.setItem('ItemperPage',Itemper);
+    }
     console.log(Itemper);
     const select = document.querySelector('#dynamicPages');
     let option;
     for(var i=0; i<select.options.length; i++) {
         option = select.options[i];
-        console.log(option);
+        
         if(option.value === Itemper) {
+            console.log(option);
             option.setAttribute('selected', true);
             break;
         }
