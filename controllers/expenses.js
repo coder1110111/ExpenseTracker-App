@@ -37,9 +37,9 @@ exports.createBill = async (req, res) => {
 
 exports.getExpense = async (req, res) => {
     const itemperpage = parseInt(req.header('ItemsPerPage'));
-    console.log(itemperpage ," : ", typeof itemperpage)
+    //console.log(itemperpage ," : ", typeof itemperpage)
     const page = req.query.page || 1;
-    console.log('page :',page);
+    //console.log('page :',page);
     let totalExpenses;
 
     try {

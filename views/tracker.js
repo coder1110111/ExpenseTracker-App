@@ -34,12 +34,19 @@ async function deleteTransaction(id) {
     });
     if(response.ok) {
         alert("Transaction Deleted!");
+        //deleteFromUI(id);
         location.reload();
     } 
     else console.log('Error somewhere');
 }
 
-/* async function fetchExpense() {
+/* function deleteFromUI(id) {      //used when dont want to reload the page itself
+    const expenseTable = document.querySelector('#expenseTable');
+    const deleteRow = document.getElementById(id);
+    expenseTable.removeChild(deleteRow);
+} */
+
+/* async function fetchExpense() {          //Not used now for pagination
     try {
         const response = await fetch(`${backendAPI}/tracker/get-Expense`, {
             method: 'POST',
@@ -64,30 +71,94 @@ async function deleteTransaction(id) {
     }
 } */
 
-    async function fetchExpenses(page) {        //fetchExpense based on Pages
+async function fetchExpenses(page) {        //fetchExpense based on Pages
     
-        try{
-            const Response = await fetch(`${backendAPI}/tracker/get-Expense?page=${page}`, {
-                headers:{
-                    'Content-Type' : 'application/json',
-                    'Authorization' : localStorage.getItem('token'),
-                    'ItemsPerPage' : localStorage.getItem('ItemperPage')
-                }
-            });
-            if(Response.ok) {
-                const Data = await Response.json();
-                //console.log(Data);
-                const { expenses , ...pageData}  = Data;
-                displayToUI(expenses);
-                console.log(pageData);
-                paginator(pageData);                
+    try{
+        const Response = await fetch(`${backendAPI}/tracker/get-Expense?page=${page}`, {
+            headers:{
+                'Content-Type' : 'application/json',
+                'Authorization' : localStorage.getItem('token'),
+                'ItemsPerPage' : localStorage.getItem('ItemperPage')
             }
-
-        } catch(error) {
-            console.log("Error in Fetching Expense >>>>" , error);
+        });
+        if(Response.ok) {
+            const Data = await Response.json();
+            //console.log(Data);
+            const { expenses , ...pageData}  = Data;
+            console.log(expenses);
+            console.log(pageData);
+            tableINIT();
+            displayToTable(expenses);
+            //displayToUI(expenses);
+            
+            paginator(pageData);                
         }
-        
+
+    } catch(error) {
+        console.log("Error in Fetching Expense >>>>" , error);
     }
+}
+
+function tableINIT() {
+    const expenseTable = document.querySelector('#expenseTable');
+    expenseTable.innerHTML="";
+    var titleRow = expenseTable.insertRow(0);
+    
+    var amount = titleRow.insertCell(0);
+    amount.innerHTML = "<b>AMOUNT</b>";
+    amount.style.width='20%';
+
+    var category = titleRow.insertCell(1);
+    category.innerHTML = "<b>Category</b>";
+    category.style.width='20%';
+
+    var description = titleRow.insertCell(2);
+    description.innerHTML = "<b>Description</b>";
+    description.style.width='45%';
+
+    var misc = titleRow.insertCell(3);
+    misc.innerHTML = "";
+
+
+    titleRow.style.backgroundColor = "Seagreen";
+    titleRow.style.color = "White";
+}
+
+function displayToTable(expenses) {
+    const expenseTable = document.querySelector('#expenseTable');
+    let i = 1;
+    expenses.forEach(expense => {
+        
+        const dataRow = expenseTable.insertRow(i);
+        if(i%2 === 0) {
+            dataRow.style.backgroundColor = 'LightGray';
+        }
+        i++;
+
+        dataRow.setAttribute('id',expense.id);
+        
+        const amountCell = dataRow.insertCell(0);
+        amountCell.innerHTML = `${expense.amount}`;
+
+        const categoryCell = dataRow.insertCell(1);
+        categoryCell.innerHTML = `${expense.category}`;
+
+        const descriptionCell = dataRow.insertCell(2);
+        descriptionCell.innerHTML = `${expense.description}`;
+
+        const miscCell = dataRow.insertCell(3);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.setAttribute('type' , 'button');
+            deleteBtn.addEventListener('click', () => deleteTransaction(dataRow.id));
+            const dlttxt = document.createTextNode('DELETE');
+            deleteBtn.appendChild(dlttxt);
+
+            miscCell.appendChild(deleteBtn);
+
+    })
+
+}
 
 function displayToUI(expenses) {        //gets data from fetchExpense to display expense //needs table for better display
     const expenseList = document.getElementById('output_list');
@@ -153,7 +224,7 @@ async function getLeaderboard(event) {          //This happens only if account i
         });
         //console.log(response);
         if(response.ok) {
-            //leaderDisplay.innerHTML = "";
+            leaderDisplay.innerHTML = "";
             const leaderboardData = await response.json();
             let i=1;
             leaderboardData.forEach(data => {
@@ -203,7 +274,7 @@ function changeItemperPage(event) {
     event.preventDefault();
     const itemsper = document.querySelector('#dynamicPages').value;
     localStorage.setItem("ItemperPage", itemsper);
-    console.log("ItemsPerPage changed to >>>", itemsper);
+    //console.log("ItemsPerPage changed to >>>", itemsper);
     location.reload();
 }
 
@@ -216,14 +287,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         Itemper = "5";
         localStorage.setItem('ItemperPage',Itemper);
     }
-    console.log(Itemper);
+    //console.log(Itemper);
     const select = document.querySelector('#dynamicPages');
     let option;
     for(var i=0; i<select.options.length; i++) {
         option = select.options[i];
         
         if(option.value === Itemper) {
-            console.log(option);
+            //console.log(option);
             option.setAttribute('selected', true);
             break;
         }
