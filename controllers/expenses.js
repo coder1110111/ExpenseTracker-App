@@ -36,6 +36,8 @@ exports.createBill = async (req, res) => {
 
 
 exports.getExpense = async (req, res) => {
+    const itemperpage = parseInt(req.header('ItemsPerPage'));
+    console.log(itemperpage ," : ", typeof itemperpage)
     const page = req.query.page || 1;
     console.log('page :',page);
     let totalExpenses;
@@ -46,19 +48,19 @@ exports.getExpense = async (req, res) => {
             totalExpenses = total;
         }).catch(err => {console.log(err)}); 
         const expenses = await req.user.getExpenses({
-            offset: (page - 1) * 10,
-            limit: 10,
+            offset: (page - 1) * itemperpage,
+            limit: itemperpage,
             order: [['createdAt', 'ASC']]
         });
-        console.log(typeof page);
+        //console.log(typeof page);
         res.status(201).json({
             expenses: expenses,
             currentPage: page,
-            hasNextPage: 10 * page < totalExpenses,
+            hasNextPage: itemperpage * page < totalExpenses,
             nextPage: parseInt(page) + 1,
             hasPreviousPage: page > 1,
             previousPage: parseInt(page) - 1,
-            lastPage: Math.ceil(totalExpenses / 10)
+            lastPage: Math.ceil(totalExpenses / itemperpage)
         });
     } catch (err) {
         console.log(err);

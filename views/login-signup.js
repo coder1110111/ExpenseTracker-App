@@ -1,5 +1,5 @@
 
-async function checkUser(event) {
+async function checkUser(event) {           //for User Sign-Up
     event.preventDefault();
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;

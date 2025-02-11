@@ -70,7 +70,8 @@ async function deleteTransaction(id) {
             const Response = await fetch(`${backendAPI}/tracker/get-Expense?page=${page}`, {
                 headers:{
                     'Content-Type' : 'application/json',
-                    'Authorization' : localStorage.getItem('token')
+                    'Authorization' : localStorage.getItem('token'),
+                    'ItemsPerPage' : localStorage.getItem('ItemperPage')
                 }
             });
             if(Response.ok) {
@@ -88,7 +89,7 @@ async function deleteTransaction(id) {
         
     }
 
-function displayToUI(expenses) {
+function displayToUI(expenses) {        //gets data from fetchExpense to display expense //needs table for better display
     const expenseList = document.getElementById('output_list');
     expenseList.innerHTML = "";
     
@@ -198,9 +199,28 @@ function displayLeaderBoard(node,rank) {
 
 }
 
+function changeItemperPage(page) {
+    localStorage.setItem("ItemperPage", page);
+    fetchExpenses(1);
+}
+
+
 window.addEventListener('DOMContentLoaded', (event) => {
     event.preventDefault();
     const page=1;
+    const Itemper = localStorage.getItem('ItemPerPage') || 10;
+    console.log(Itemper);
+    const select = document.querySelector('#dynamicPages');
+    let option;
+    for(var i=0; i<select.options.length; i++) {
+        option = select.options[i];
+        console.log(option);
+        if(option.value === Itemper) {
+            option.setAttribute('selected', true);
+            break;
+        }
+    }
+    
     fetchExpenses(page);
 
 });
