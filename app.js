@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const morgan = require('morgan');
+const fs = require('fs');
 require("dotenv").config();
 
 const sequelize = require('./util/database');
@@ -18,6 +20,18 @@ const passRoutes = require('./routes/forgotRoutes');
 
 const app = express();
 
+//security implementation check
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');  
+    next();
+})
+
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
+    flags : 'a'     //This means to append new data in the file not overwrite it
+});
+
+app.use(morgan('combined', {stream: accessLogStream}));        //This alone will log in console
 app.use(express.json());
 app.use(cors());
 
