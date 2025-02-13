@@ -281,6 +281,7 @@ function changeItemperPage(event) {
 
 window.addEventListener('DOMContentLoaded', (event) => {
     event.preventDefault();
+    
     const page=1;
     let Itemper = localStorage.getItem('ItemperPage');
     if(Itemper === null) {
@@ -303,4 +304,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     fetchExpenses(page);
 
 });
+
+function logOut() {
+    //delete token id from localStorage
+    //redirect to login page
+    console.log('Hello form logout');
+}
 

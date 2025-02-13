@@ -1,0 +1,7 @@
+Currentrly at signUp asks if the user is Premium user or not for premium feature
+
+Note:
+    add report generation on basis of month
+    dont know how can i print a page in pdf format
+
+    Still have to made UI compatible with mobile phones

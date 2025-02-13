@@ -4,12 +4,23 @@ body {
 }
 
 .top-section {
+    display: flex;
     height: 25%;
-    padding-top: 15px;
-    padding-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     padding-left: 10px;
     background-color: #007bff;
     color: gold;
+    justify-content: space-between;
+}
+
+.NavBtn {
+    display: flex;
+}
+
+.headBtn {
+    padding-left: 1.5%;
+    margin-right: 3rem;
 }
 
 .bottom-section {
@@ -22,7 +33,7 @@ body {
     display:flex;
 }
 
-.centered-flex button{
+button{
     width: 8rem;
     padding: 10px;
     background: green;
@@ -30,7 +41,7 @@ body {
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;;
+    margin-top: 10px;
 }
 
 .input-group {

@@ -24,6 +24,10 @@ const User = sequelize.define('user', {
         allowNull:false,
         type: Sequelize.INTEGER,
         defaultValue: 0
+    },
+    is_Premium: {
+        allowNull: false,
+        type: Sequelize.ENUM('true','false')
     }
 });
 
