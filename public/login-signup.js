@@ -6,6 +6,10 @@ async function checkUser(event) {           //for User Sign-Up
     const password = document.getElementById('passwrd').value;
     const repeatpassword = document.getElementById('repeat_passwrd').value;
     const errorPassword = document.getElementById('error');
+    const premiumUser = document.getElementById('checkPremium');
+    const is_Premium = premiumUser.checked;
+    //console.log(premiumUser);
+    console.log(is_Premium);
     if(password !== repeatpassword) {
         errorPassword.innerHTML = "<span style='color: red;'>" + "Password does not match!</span>"
     } else {
@@ -15,12 +19,14 @@ async function checkUser(event) {           //for User Sign-Up
                 headers : {
                     'Content-Type' : 'application/json'
                 },
-                body: JSON.stringify({username, email, password})
+                body: JSON.stringify({username, email, password, is_Premium})
             });
             console.log("Resquest Sent!");
             if(response.ok) {
                 alert('User Created Successfully!')
-                window.location.href="user.html";
+                
+                window.location.href = 'login';
+                
             } else {
                 if(response.status===409){
                     alert("Email already in use!");

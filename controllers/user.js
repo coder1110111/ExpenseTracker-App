@@ -2,15 +2,27 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 require("dotenv").config();
 
-exports.createUser = async (req, res) => {
+exports.getCreateUser = (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'signUp.html'));
+};
+
+exports.postCreateUser = async (req, res) => {
     console.log('Request Received!');
 
     const name = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-
+    const check = req.body.is_Premium;
+    let is_Premium;
+    if(check) {
+        is_Premium = 'true';
+    } else {
+        is_Premium = 'false';
+    }
+    console.log(is_Premium, '>>>>', typeof is_Premium);
     //console.log(` ${name} ${email} ${password}`);
 
     if(!name || !email || !password) {
@@ -30,6 +42,7 @@ exports.createUser = async (req, res) => {
                 name: name,
                 email: email,
                 password: hash,
+                is_Premium: is_Premium
             });
             res.status(201).json({message: 'User Created'});
         })
@@ -40,7 +53,11 @@ exports.createUser = async (req, res) => {
     }
 };
 
-exports.Login = async (req, res) => {
+exports.getLogin = (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'user.html'));
+}
+
+exports.postLogin = async (req, res) => {
     const { email, password} = req.body;
     if(!email || !password) {
         return res.status(400).json({message: "All fields are required!"});

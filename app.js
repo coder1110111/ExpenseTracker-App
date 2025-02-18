@@ -35,6 +35,9 @@ app.use(morgan('combined', {stream: accessLogStream}));        //This alone will
 app.use(express.json());
 app.use(cors());
 
+//serve static files(like css, js, images)
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 //routes
 app.use('/user', userRoutes);
