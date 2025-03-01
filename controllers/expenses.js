@@ -1,7 +1,13 @@
 const { INTEGER } = require('sequelize');
 const Expense = require('../models/expense');
 const sequelize = require('../util/database');
+const path = require('path');
 
+
+exports.getTracker = async (req, res) => {
+    //console.log("Is in controller");
+    res.sendFile(path.join(__dirname, '..', 'views', 'tracker.html'));
+}
 
 exports.createBill = async (req, res) => {
     const t = await sequelize.transaction();

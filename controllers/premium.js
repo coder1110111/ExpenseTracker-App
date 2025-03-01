@@ -1,9 +1,10 @@
 const User = require('../models/user');
 const Expense = require('../models/expense');
 const { Sequelize, Model } = require('sequelize');
+const path = require('path');
 
 exports.getLeaderboard = async (req, res) => {
-    console.log(req.user);
+    //console.log(req.user);
     try {
 
         const data = await User.findAll({
@@ -31,5 +32,27 @@ exports.getLeaderboard = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({error: "Internal Server Error"});
+    }
+}
+
+exports.getPDF = async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, '..', 'views', 'checkPremium.html'));
+    } catch (err) {
+        console.log(err);
+        res.status(500).josn({error: "Internal Server Error"});
+    }
+}
+
+exports.getData = async (req, res) => {
+    try {
+        const expenses = await req.user.getExpenses({
+            order: [['createdAt', 'ASC']]
+        });
+        //console.log(typeof page);
+        res.status(201).json({expenses: expenses});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
     }
 }

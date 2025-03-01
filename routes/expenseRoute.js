@@ -5,7 +5,7 @@ const expenseController = require('../controllers/expenses');
 const authenticate = require('../middleware/authentication');
 
 //uses /tracker path
-
+router.get('/get-Tracker', expenseController.getTracker);
 router.post('/post-Expense', authenticate, expenseController.createBill);
 router.get('/get-Expense', authenticate, expenseController.getExpense);
 router.delete('/delete-Transaction/:id', authenticate, expenseController.deleteExpense);

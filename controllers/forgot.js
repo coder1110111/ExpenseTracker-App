@@ -3,9 +3,13 @@
 const Sib = require('sib-api-v3-sdk');
 const User = require('../models/user');
 const PasswordReset = require('../models/linktable');
+const path = require('path');
 
 require('dotenv').config();
 
+exports.SendPage = async (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'forgetPassword.html'));
+}
 
 exports.SendLink = async (req, res) => {
     const { email } = req.body;
@@ -50,7 +54,7 @@ exports.SendLink = async (req, res) => {
             to: receivers,
             subject: 'Test Email using sib',
             textContent:`Please click on this link to change your password  http://localhost:1800/password/Reset-Password/${createLink.id}!`
-            
+            //Modify this line for AWS
         });
 
         console.log(response);

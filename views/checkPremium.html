@@ -43,20 +43,8 @@
             border: 5px solid;
         }
     </style>
-    <script>
-        window.onload = (event) => {
-            event.preventDefault();
-            const date = document.querySelector('#date');
-            //const year = document.querySelector('#year');
-            //const month = document.querySelector('#month');
-            const currentDate = new Date();
-            let day = currentDate.getDate();
-            let month = currentDate.getMonth() + 1;
-            let year = currentDate.getFullYear();
-            console.log(currentDate);
-            date.innerHTML=`${day}-${month}-${year}`;
-        }
-    </script>
+    <script src="/PDF.js"></script>
+    <title>Document</title>
 </head>
 <body class="A4">
     <section class="sheet">
@@ -69,23 +57,9 @@
                 <td style="font-weight: bold;">Date</td>
                 <td style="font-weight: bold;">Description</td>
                 <td style="font-weight: bold;">Category</td>
-                <td style="font-weight: bold;">Income</td>
                 <td style="font-weight: bold;">Expense</td>
             </tr>
-            <tr>
-                <td>checkDate</td>
-                <td>CheckDescription</td>
-                <td>CheckCategory</td>
-                <td>CheckIncome</td>
-                <td>CheckExpense</td>
-            </tr>
-            <tr>
-                <td>checkDate</td>
-                <td>CheckDescription</td>
-                <td>CheckCategory</td>
-                <td>CheckIncome</td>
-                <td>CheckExpense</td>
-            </tr>
+            
         </table>
         <div class="fixed">
             <button type="submit" id="downloadBtn" style="background-color: lightseagreen; color: #f0f0f0;">Download PDF!</button>

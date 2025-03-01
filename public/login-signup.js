@@ -57,7 +57,7 @@ async function checklogin(event) {
             if(data.message == "Login Successful!"){
                 if(data.token){
                     localStorage.setItem("token", data.token);
-                    window.location.href = "tracker.html";
+                    window.location.href = "http://localhost:1800/tracker/get-Tracker";
                 }
             }
         

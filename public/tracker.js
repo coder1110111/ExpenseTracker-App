@@ -85,8 +85,8 @@ async function fetchExpenses(page) {        //fetchExpense based on Pages
             const Data = await Response.json();
             //console.log(Data);
             const { expenses , ...pageData}  = Data;
-            console.log(expenses);
-            console.log(pageData);
+            //console.log(expenses);
+            //console.log(pageData);
             tableINIT();
             displayToTable(expenses);
             //displayToUI(expenses);
@@ -305,9 +305,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 });
 
-function logOut() {
-    //delete token id from localStorage
-    //redirect to login page
-    console.log('Hello form logout');
+async function getPDF() {
+    
+    //window.location.href = 'http://localhost:1800/premium/get-PDF';
+    /* const Response = await fetch('http://localhost:1800/premium/get-PDF', {
+        headers: {
+            'Authorization' : localStorage.getItem('token')
+        }
+    }) */
+   window.open('http://localhost:1800/premium/get-PDF', '_blank');
 }
 

@@ -18,6 +18,7 @@ const authenticate = async (req, res, next) => {
         if(!user) {
             console.log('No User!');
         }
+        //console.log("Is Authenticated");
         req.user = user;
         next();
         
