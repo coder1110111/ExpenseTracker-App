@@ -22,7 +22,7 @@ exports.postCreateUser = async (req, res) => {
     } else {
         is_Premium = 'false';
     }
-    console.log(is_Premium, '>>>>', typeof is_Premium);
+    //console.log(is_Premium, '>>>>', typeof is_Premium);
     //console.log(` ${name} ${email} ${password}`);
 
     if(!name || !email || !password) {

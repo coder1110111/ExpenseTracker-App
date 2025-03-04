@@ -10,6 +10,7 @@ window.onload = (event) => {
             let year = currentDate.getFullYear();
             console.log(currentDate);
             date.innerHTML=`${day}-${month}-${year}`;
+            document.querySelector('#downloadBtn').addEventListener('click', generatePDF);
     getData();
 }
 
@@ -45,6 +46,54 @@ function displayData(expense) {
     table.appendChild(newtr);
 }
 
-function showTotal() {
-
+function generatePDF() {
+    const ele = document.querySelector('.sheet');
+    const options = {
+        margin: [10, 10, 10, 10],
+        filename: 'Monthly_Expenses.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy']}
+    };
+    html2pdf().set(options).from(ele).save();
 }
+
+    /* function PdfDownload() {
+        const table = document.querySelector("#monthlyData");
+
+        const tableData = [];
+        const rows = table.rows;
+        for(let i = 0; i < rows.length; i++) {
+            const rowData = [];
+            const cells = rows[i].cells;
+            for(let j = 0; j<cells.length; j++) {
+                rowData.push(cells[j].innerText);
+            }
+            tableData.push(rowData);
+        }
+
+        const docDefinition = {
+            content: [
+                {
+                    text: 'This is your Expenses',
+                    style: 'header'
+                },
+                {
+                    table: {
+                        widths: ['50%', '*', '*'],
+                        body: tableData
+                    }
+                }
+            ],
+            styles: {
+                header: {
+                    fontSize: 18,
+                    bold: true,
+                    margin: [0, 0, 0, 10]
+                }
+            }
+        };
+
+        pdfMake.createPdf(docDefinition).download('expense.pdf');
+    } */

@@ -6,6 +6,8 @@
         .sheet {
             padding: 20mm;
             background-color: #fafafa;
+            page-break-inside: avoid;
+            overflow: hidden;
         }
         body {
             background-color: #f0f0f0;
@@ -15,6 +17,12 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Georgia', serif;
+        }
+        html, body {
+            height: auto;
+            margin: 0;
+            padding: 0;
+            page-break-inside: avoid;
         }
         h1, p {
             margin: 0 0 10px;
@@ -37,12 +45,22 @@
             bottom: 0%;
             transform: translateX(50%);
         }
+        .fixed {
+            position: static;
+            text-align: center;
+            margin-top: 20px;
+        }
         #downloadBtn {
             background-color: lightseagreen;
             color: #f0f0f0;
             border: 5px solid;
         }
+        #downloadBtn:hover {
+            background-color: purple;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="/PDF.js"></script>
     <title>Document</title>
 </head>
@@ -50,8 +68,6 @@
     <section class="sheet">
         <h1 style="color:lightseagreen;">Day to Day Expenses</h1>
         <p style="text-align: left;font-size: smaller;" id="date"> Date here</p>
-        <h2 id="year">Year here</h2>
-        <h4 id="month">Month here</h4>
         <table style="width:100%;" id="monthlyData">
             <tr class="tableHead" style="background-color: lightseagreen;">
                 <td style="font-weight: bold;">Date</td>
